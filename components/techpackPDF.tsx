@@ -16,6 +16,7 @@ import type { ICustomFont, ITechpack } from "@/lib/types";
 import { humanize } from "@/lib/utils";
 
 export default function TechpackPDF(data: ITechpack) {
+	console.log(data);
 	const { clientName, fabricType } = data;
 
 	// Colours
@@ -32,8 +33,8 @@ export default function TechpackPDF(data: ITechpack) {
 		? ALL_COLOURS.filter((item) => item.selectValue === data.colours.colour4)
 		: undefined;
 
-	const totalItems = data.orderForm.sizeTotals.find((item: string) =>
-		item[0] === "Total" ? item : undefined,
+	const totalItems = data.orderForm.sizeTotals.find((item) =>
+		item![0] === "Total" ? item : undefined,
 	);
 
 	const renderCustomFontsTable = () => {
@@ -63,18 +64,17 @@ export default function TechpackPDF(data: ITechpack) {
 		);
 	};
 
-	[...Array(data.customFonts?.length)];
-
 	// Size Options
+	// eslint-disable-next-line no-use-before-define
 	const RenderSizes = data.orderForm.sizeTotals.map(
-		(row: string[], index: number) => {
+		(row: string[] | undefined, index: number) => {
 			return (
 				<View key={`row-${index}`} style={styles.sizeTableRow}>
 					<View style={styles.sizeTableRowItem}>
-						<Text>{row[0]}</Text>
+						<Text>{row![0]}</Text>
 					</View>
 					<View style={styles.sizeTableRowItem}>
-						<Text>{row[1]}</Text>
+						<Text>{row![1]}</Text>
 					</View>
 				</View>
 			);
@@ -82,19 +82,20 @@ export default function TechpackPDF(data: ITechpack) {
 	);
 
 	// Product Attributes
+	// eslint-disable-next-line no-use-before-define
 	const RenderProductAttributes = data.orderForm.productAttributes.map(
-		(row: string[], index: number) => {
+		(row: string[] | undefined, index: number) => {
 			return (
 				<View key={`row-${index}`} style={styles.sizeTableRow}>
 					<View style={styles.sizeTableRowItem}>
-						<Text>{row[0]}</Text>
+						<Text>{row![0]}</Text>
 					</View>
 					<View style={styles.sizeTableRowItem}>
-						<Text>{row[1]}</Text>
+						<Text>{row![1]}</Text>
 					</View>
-					{row[2] ? (
+					{row![2] ? (
 						<View style={styles.sizeTableRowItem}>
-							<Text>{row[2]}</Text>
+							<Text>{row![2]}</Text>
 						</View>
 					) : null}
 				</View>

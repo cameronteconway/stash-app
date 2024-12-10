@@ -5,11 +5,8 @@ export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
 
-export const sumValues = (obj: unknown) =>
-	Object.values(obj).reduce((a, b) => a + b, 0);
-
-export const filteredAttributes = (arr: string[]) => {
-	return arr.filter(function (element: string) {
+export const filteredAttributes = (arr: (string[] | undefined)[]) => {
+	return arr.filter(function (element) {
 		return element !== undefined;
 	});
 };

@@ -4,8 +4,8 @@ import type { UseFormReturn } from "react-hook-form";
 export type IFabricType = "polarFleece" | "cotton" | "sherpa";
 
 export interface IOrderForm {
-	productAttributes: string[];
-	sizeTotals: string[];
+	productAttributes: (string[] | undefined)[];
+	sizeTotals: (string[] | undefined)[];
 }
 
 export interface IAllColours {

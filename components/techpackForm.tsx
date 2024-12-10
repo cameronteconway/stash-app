@@ -57,13 +57,15 @@ export default function TechpackForm() {
 				const usableRows = text.split("\n").splice(2);
 
 				// Get all the products
-				const productAttributes = usableRows.splice(1).map((row: string) => {
-					const applicableRows = row.split(",").slice(1, 4);
-					const isValid = applicableRows[0] !== "";
-					while (isValid) {
-						return applicableRows;
-					}
-				});
+				const productAttributes: (string[] | undefined)[] = usableRows
+					.splice(1)
+					.map((row: string) => {
+						const applicableRows = row.split(",").slice(1, 4);
+						const isValid = applicableRows[0] !== "";
+						while (isValid) {
+							return applicableRows;
+						}
+					});
 
 				// Get the index of the sizeOptions field
 				usableRows.map((row: string) => {
@@ -74,7 +76,7 @@ export default function TechpackForm() {
 					if (sizeOptions !== -1) sizeOptionsIndex = sizeOptions;
 				});
 
-				const sizeOptionsAttributes = text
+				const sizeOptionsAttributes: (string[] | undefined)[] = text
 					.split("\n")
 					.splice(3)
 					.map((row: string, index: number) => {
@@ -87,8 +89,8 @@ export default function TechpackForm() {
 					});
 
 				setCsvData({
-					productAttributes: filteredAttributes(productAttributes as never),
-					sizeTotals: filteredAttributes(sizeOptionsAttributes as never),
+					productAttributes: filteredAttributes(productAttributes),
+					sizeTotals: filteredAttributes(sizeOptionsAttributes),
 				});
 			}
 		};
