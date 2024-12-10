@@ -31,8 +31,8 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { Separator } from "./ui/separator";
-
-const baseUrl = "http://localhost:3000";
+// Update this to an environment variable
+const baseUrl = "https://the-stash-app.vercel.app/";
 
 export default function TechpackForm() {
 	const [fabricType, setFabricType] = useState<IFabricType | null>(null);
