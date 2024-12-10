@@ -78,7 +78,7 @@ export type FontType =
 export type IForm = UseFormReturn<
 	{
 		clientName: string;
-		orderForm?: FileList | undefined;
+		orderForm: FileList;
 		fabricType: "polarFleece" | "cotton" | "sherpa";
 		colour1:
 			| "baby-blue"

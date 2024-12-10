@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-import TechpackPDF from "@/components/techpackPDF";
+import TeckpackDynamic from "@/components/techpackPDFDynamic";
 
 export default async function Page() {
 	const cookieStore = await cookies();
@@ -12,7 +12,7 @@ export default async function Page() {
 	return (
 		<>
 			<div className='mx-auto flex max-w-[600px] flex-col pb-16'>
-				<TechpackPDF {...techpackData} />
+				<TeckpackDynamic {...techpackData} />
 			</div>
 		</>
 	);

@@ -2,16 +2,10 @@ import { z } from "zod";
 
 export const formSchema = z.object({
 	clientName: z.string().min(1),
-	orderForm: z.instanceof(FileList).optional(),
-	// orderForm: z
-	// 	.custom<File>()
-	// 	.refine((file) => file.type === "text/csv", {
-	// 		message: "Only CSV files are allowed",
-	// 	})
-	// 	.refine((file) => file.size <= 5 * 1024 * 1024, {
-	// 		// Optional size limit: 5MB
-	// 		message: "File size must be less than 5MB",
-	// 	}),
+	// orderForm: z.instanceof(FileList).optional(),
+	orderForm: z.unknown().transform((value) => {
+		return value as FileList;
+	}),
 	fabricType: z.enum(["polarFleece", "cotton", "sherpa"]),
 	colour1: z.enum([
 		"baby-blue",

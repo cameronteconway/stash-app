@@ -16,7 +16,6 @@ import type { ICustomFont, ITechpack } from "@/lib/types";
 import { humanize } from "@/lib/utils";
 
 export default function TechpackPDF(data: ITechpack) {
-	console.log(data);
 	const { clientName, fabricType } = data;
 
 	// Colours
