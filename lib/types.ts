@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
-import { UseFormReturn } from "react-hook-form";
+import type { Dispatch, SetStateAction } from "react";
+import type { UseFormReturn } from "react-hook-form";
 
 export type IFabricType = "polarFleece" | "cotton" | "sherpa";
 
@@ -29,6 +29,20 @@ export interface TechPackColourPickerProps {
 	form: IForm;
 	setAmountOfColourFields: Dispatch<SetStateAction<number>>;
 	setFabricType: Dispatch<SetStateAction<IFabricType | null>>;
+}
+
+export interface ITechpack {
+	clientName: string;
+	colours: {
+		colour1?: string;
+		colour2?: string | undefined;
+		colour3?: string | undefined;
+		colour4?: string | undefined;
+	};
+	customFont: boolean;
+	customFonts?: ICustomFont[];
+	fabricType: IFabricType;
+	orderForm: IOrderForm;
 }
 
 export interface TechPackSizeAndQuantityProps {
@@ -64,7 +78,7 @@ export type FontType =
 export type IForm = UseFormReturn<
 	{
 		clientName: string;
-		// orderForm: File;
+		orderForm?: FileList | undefined;
 		fabricType: "polarFleece" | "cotton" | "sherpa";
 		colour1:
 			| "baby-blue"
@@ -108,6 +122,6 @@ export type IForm = UseFormReturn<
 			| "off-white";
 		customFont: boolean;
 	},
-	any,
+	unknown,
 	undefined
 >;

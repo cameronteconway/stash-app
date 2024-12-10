@@ -1,27 +1,6 @@
 "use client";
 
 import {
-	FontSize,
-	FontType,
-	ICustomFont,
-	TechpackCustomFontProps,
-} from "@/lib/types";
-import {
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "./ui/form";
-import { Checkbox } from "./ui/checkbox";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "./ui/select";
-import {
 	Card,
 	CardContent,
 	CardDescription,
@@ -29,9 +8,31 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Label } from "./ui/label";
-import { Button } from "./ui/button";
+import type {
+	FontSize,
+	FontType,
+	ICustomFont,
+	TechpackCustomFontProps,
+} from "@/lib/types";
 import { cn } from "@/lib/utils";
+
+import { Button } from "./ui/button";
+import { Checkbox } from "./ui/checkbox";
+import {
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "./ui/form";
+import { Label } from "./ui/label";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "./ui/select";
 
 export default function TechpackCustomFont({
 	amountOfCustomFontFields,
@@ -51,7 +52,7 @@ export default function TechpackCustomFont({
 	};
 
 	const removeCustomFont = () => {
-		let customFontsCopy = [...customFontArray];
+		const customFontsCopy = [...customFontArray];
 		customFontsCopy.pop();
 		setCustomFontArray(customFontsCopy);
 		setAmountOfCustomFontFields((prevState) => prevState - 1);

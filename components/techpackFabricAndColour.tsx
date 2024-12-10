@@ -1,3 +1,14 @@
+import { X } from "lucide-react";
+import { useEffect, useState } from "react";
+
+import { COLOUR_MAP } from "@/data/colour-data";
+import type {
+	IAllColours,
+	IFabricType,
+	TechPackColourPickerProps,
+} from "@/lib/types";
+
+import { Button } from "./ui/button";
 import {
 	FormControl,
 	FormDescription,
@@ -13,15 +24,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "./ui/select";
-import { useEffect, useState } from "react";
-import {
-	IAllColours,
-	IFabricType,
-	TechPackColourPickerProps,
-} from "@/lib/types";
-import { COLOUR_MAP } from "@/data/colour-data";
-import { Button } from "./ui/button";
-import { X } from "lucide-react";
 
 export default function TechPackFabricAndColour({
 	form,
@@ -49,7 +51,7 @@ export default function TechPackFabricAndColour({
 	};
 
 	const removeColourField = () => {
-		let colourFieldsCopy = [...colourFields];
+		const colourFieldsCopy = [...colourFields];
 		colourFieldsCopy.pop();
 		setColourFields(colourFieldsCopy);
 		setAmountOfColourFields((prevState) => prevState - 1);
@@ -141,7 +143,7 @@ export default function TechPackFabricAndColour({
 													<Button
 														variant='ghost'
 														size='sm'
-														className='h-fit w-fit rounded-full p-1'
+														className='size-fit rounded-full p-1'
 														type='button'
 														onClick={removeColourField}
 													>
@@ -152,10 +154,10 @@ export default function TechPackFabricAndColour({
 														variant='ghost'
 														disabled
 														size='sm'
-														className='h-fit w-fit rounded-full p-1'
+														className='size-fit rounded-full p-1'
 														type='button'
 													>
-														<span className='h-[16px] w-[16px]' />
+														<span className='size-[16px]' />
 													</Button>
 												)}
 											</div>

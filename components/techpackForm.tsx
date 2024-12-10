@@ -1,8 +1,25 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import type { ChangeEvent } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import type { z } from "zod";
+
+import { createOrderFormCookie } from "@/app/actions";
+import { formSchema } from "@/lib/schema";
+import type {
+	ICustomFont,
+	IFabricType,
+	IOrderForm,
+	ITechpack,
+} from "@/lib/types";
+import { filteredAttributes } from "@/lib/utils";
+
+import TechpackCustomFont from "./techpackCustomFont";
+import TechPackFabricAndColour from "./techpackFabricAndColour";
+import { Button } from "./ui/button";
 import {
 	Form,
 	FormControl,
@@ -12,49 +29,25 @@ import {
 	FormLabel,
 	FormMessage,
 } from "./ui/form";
-import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Separator } from "./ui/separator";
-import { useState } from "react";
-import { ICustomFont, IFabricType, IOrderForm } from "@/lib/types";
-import TechPackFabricAndColour from "./techpackFabricAndColour";
-// import TechPackSizeAndQuantity from "./techpackSizeAndQuantity";
-import { formSchema } from "@/lib/schema";
-import TechpackCustomFont from "./techpackCustomFont";
-import { useToast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
-import { filteredAttributes } from "@/lib/utils";
-import { createOrderFormCookie } from "@/app/actions";
 
-let baseUrl = "http://localhost:3000";
+const baseUrl = "http://localhost:3000";
 
 export default function TechpackForm() {
 	const [fabricType, setFabricType] = useState<IFabricType | null>(null);
-	// const [quantity, setQuantity] = useState<number>(0);
 	const [amountOfColourFields, setAmountOfColourFields] = useState<number>(1);
 	const [hasCustomFont, setHasCustomFont] = useState<boolean>(false);
 	const [amountOfCustomFontFields, setAmountOfCustomFontFields] =
 		useState<number>(0);
 	const [customFontArray, setCustomFontArray] = useState<ICustomFont[]>([]);
-	// const [customNames, setCustomNames] = useState<ICustomNames[]>([])
 
 	const [csvData, setCsvData] = useState<IOrderForm>({
 		productAttributes: [],
 		sizeTotals: [],
 	});
-	const [errorMessage, setErrorMessage] = useState("");
-	const [isLoading, setIsLoading] = useState(false);
-	const handleFileUpload = (event: any) => {
-		const file = event.target.files[0];
-		if (!file) {
-			setErrorMessage("Please select a file.");
-			return;
-		}
-		if (!file.name.endsWith(".csv")) {
-			setErrorMessage("Please upload a CSV file.");
-			return;
-		}
-		setIsLoading(true);
+	const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
+		const file = event.target.files![0];
 		const reader = new FileReader();
 		reader.onload = (e: ProgressEvent<FileReader>) => {
 			const sizeOptionsRows = 11;
@@ -94,17 +87,13 @@ export default function TechpackForm() {
 					});
 
 				setCsvData({
-					productAttributes: filteredAttributes(productAttributes as any),
-					sizeTotals: filteredAttributes(sizeOptionsAttributes as any),
+					productAttributes: filteredAttributes(productAttributes as never),
+					sizeTotals: filteredAttributes(sizeOptionsAttributes as never),
 				});
-				setErrorMessage("");
-				setIsLoading(false);
 			}
 		};
 		reader.readAsText(file);
 	};
-
-	const { toast } = useToast();
 
 	const router = useRouter();
 
@@ -112,6 +101,7 @@ export default function TechpackForm() {
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			clientName: "",
+			orderForm: undefined,
 			fabricType: undefined,
 			colour1: undefined,
 			colour2: undefined,
@@ -125,7 +115,7 @@ export default function TechpackForm() {
 		const url = new URL("/techpack", baseUrl);
 
 		let colours;
-		let customFonts = [];
+		const customFonts = [];
 
 		switch (amountOfColourFields) {
 			case 1:
@@ -154,7 +144,7 @@ export default function TechpackForm() {
 			});
 		}
 
-		const techpackData = {
+		const techpackData: ITechpack = {
 			orderForm: { ...csvData },
 			clientName: values.clientName,
 			fabricType: values.fabricType,
@@ -167,6 +157,8 @@ export default function TechpackForm() {
 
 		router.push(url.toString());
 	}
+
+	// TODO: Inline error if no orderForm
 
 	return (
 		<>
@@ -202,7 +194,7 @@ export default function TechpackForm() {
 										accept='.csv'
 										onBlur={onBlur}
 										ref={ref}
-										onChange={handleFileUpload}
+										onChange={(event) => handleFileUpload(event)}
 										placeholder='LSE Netball'
 										className='text-muted-foreground file:mr-3 file:rounded-md file:border file:border-input file:hover:cursor-pointer file:hover:bg-accent file:hover:text-accent-foreground'
 									/>

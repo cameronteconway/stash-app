@@ -1,53 +1,22 @@
 "use client";
 
 import {
-	Page,
-	Text,
-	View,
 	Document,
 	Image,
+	Page,
 	PDFViewer,
+	Text,
+	View,
 } from "@react-pdf/renderer";
-
-import { styles } from "@/lib/pdfStyles";
-import { ALL_COLOURS } from "@/data/colour-data";
 import React from "react";
-import type {
-	FontSize,
-	FontType,
-	IAllColours,
-	ICustomFont,
-	IFabricType,
-	IOrderForm,
-} from "@/lib/types";
 
-function humanize(str) {
-	var i,
-		frags = str.split("_");
-	for (i = 0; i < frags.length; i++) {
-		frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
-	}
-	return frags.join(" ");
-}
-
-interface ITechpack {
-	clientName: string;
-	colours: {
-		colour1: string;
-		colour2?: string;
-		colour3?: string;
-		colour4?: string;
-	};
-	customFont: boolean;
-	customFonts?: ICustomFont[];
-	fabricType: IFabricType;
-	orderForm: IOrderForm;
-}
+import { ALL_COLOURS } from "@/data/colour-data";
+import { styles } from "@/lib/pdfStyles";
+import type { ICustomFont, ITechpack } from "@/lib/types";
+import { humanize } from "@/lib/utils";
 
 export default function TechpackPDF(data: ITechpack) {
-	console.log(data);
-
-	const { clientName, fabricType, customFont } = data;
+	const { clientName, fabricType } = data;
 
 	// Colours
 	const colour1Object = ALL_COLOURS.filter(
@@ -66,20 +35,6 @@ export default function TechpackPDF(data: ITechpack) {
 	const totalItems = data.orderForm.sizeTotals.find((item: string) =>
 		item[0] === "Total" ? item : undefined,
 	);
-
-	// Custom Fonts
-	// const customFontItems = data.customFonts?.map((element: ICustomFont, index: number) => {
-	// 	return (
-	// 		<View key={`customFont-${index}`} style={styles.customFontItem}>
-	// 			<View style={styles.sizeTableRowItem}>
-	// 				<Text>{element.fontSize}</Text>
-	// 			</View>
-	// 			<View style={styles.sizeTableRowItem}>
-	// 				<Text>{element.fontType}</Text>
-	// 			</View>
-	// 		</View>
-	// 	)
-	// })
 
 	const renderCustomFontsTable = () => {
 		return (
@@ -152,10 +107,12 @@ export default function TechpackPDF(data: ITechpack) {
 			<Document>
 				<Page size='A4'>
 					<View style={styles.header}>
-						<Image
-							style={styles.logo}
-							src={`${window.location.origin}/thestashcompanylogo.png`}
-						/>
+						{typeof window !== "undefined" ? (
+							<Image
+								style={styles.logo}
+								src={`${window.location.origin}/thestashcompanylogo.png`}
+							/>
+						) : null}
 					</View>
 					<View style={styles.content}>
 						<View style={styles.basicInfo}>

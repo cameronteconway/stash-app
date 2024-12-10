@@ -2,7 +2,9 @@
 
 import { cookies } from "next/headers";
 
-export async function createOrderFormCookie(data: any) {
+import type { ITechpack } from "@/lib/types";
+
+export async function createOrderFormCookie(data: ITechpack) {
 	const cookieStore = await cookies();
 
 	(await cookies()).delete("orderForm");

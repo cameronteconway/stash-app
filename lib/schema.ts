@@ -2,15 +2,7 @@ import { z } from "zod";
 
 export const formSchema = z.object({
 	clientName: z.string().min(1),
-	// orderForm: z
-	// 	.instanceof(File) // Ensure the input is a File object
-	// 	.refine((file) => file.type === "text/csv", {
-	// 		message: "Only CSV files are allowed",
-	// 	})
-	// 	.refine((file) => file.size <= 5 * 1024 * 1024, {
-	// 		// Optional size limit: 5MB
-	// 		message: "File size must be less than 5MB",
-	// 	}),
+	orderForm: z.instanceof(FileList).optional(),
 	// orderForm: z
 	// 	.custom<File>()
 	// 	.refine((file) => file.type === "text/csv", {
@@ -71,14 +63,5 @@ export const formSchema = z.object({
 			"off-white",
 		])
 		.optional(),
-	// xxs: z.string(),
-	// xs: z.string(),
-	// s: z.string(),
-	// m: z.string(),
-	// l: z.string(),
-	// xl: z.string(),
-	// xxl: z.string(),
-	// xxxl: z.string(),
-	// xxxxl: z.string(),
 	customFont: z.boolean(),
 });
